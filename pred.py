@@ -26,7 +26,7 @@ mode = input('mode (load / train)? ')
 # Set file names
 file_train_instances = "fnc-1/train_stances.csv"
 file_train_bodies = "fnc-1/train_bodies.csv"
-file_test_instances = "fnc-1/competition_test_stances_unlabeled.csv"
+file_test_instances = "fnc-1/competition_test_stances.csv"
 file_test_bodies = "fnc-1/competition_test_bodies.csv"
 file_predictions = "predictions_test.csv"
 
@@ -54,7 +54,7 @@ n_train = len(raw_train.instances)
 train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer = \
     pipeline_train(raw_train, raw_test, lim_unigram=lim_unigram)
 feature_size = len(train_set[0])
-test_set = pipeline_test(raw_test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer)
+test_set, test_stances = pipeline_test(raw_test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer)
 
 
 # Define model
@@ -126,6 +126,9 @@ if mode == 'train':
         test_feed_dict = {features_pl: test_set, keep_prob_pl: 1.0}
         test_pred = sess.run(predict, feed_dict=test_feed_dict)
 
+
+print("Scores on the test set")
+report_score(test_actual_stances, test_pred_stances)
 
 # Save predictions
 save_predictions(test_pred, file_predictions)
