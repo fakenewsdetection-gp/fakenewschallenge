@@ -127,9 +127,12 @@ if mode == 'train':
         test_feed_dict = {features_pl: test_set, keep_prob_pl: 1.0}
         test_pred = sess.run(predict, feed_dict=test_feed_dict)
 
+predicted = [label_ref_rev[i] for i in test_pred]
+actual = [label_ref_rev[i] for i in test_stances]
+
 
 print("Scores on the test set")
-report_score(test_stances, test_pred)
+report_score(actual, predicted)
 
 # Save predictions
 save_predictions(test_pred, file_predictions)
