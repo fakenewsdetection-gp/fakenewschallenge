@@ -129,7 +129,7 @@ if mode == 'train':
 
 
 print("Scores on the test set")
-report_score(test_actual_stances, test_pred_stances)
+report_score(test_stances, test_pred)
 
 # Save predictions
 save_predictions(test_pred, file_predictions)
