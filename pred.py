@@ -24,11 +24,11 @@ mode = input('mode (load / train)? ')
 
 
 # Set file names
-file_train_instances = "train_stances.csv"
-file_train_bodies = "train_bodies.csv"
-file_test_instances = "test_stances_unlabeled.csv"
-file_test_bodies = "test_bodies.csv"
-file_predictions = 'predictions_test.csv'
+file_train_instances = "fnc-1/train_stances.csv"
+file_train_bodies = "fnc-1/train_bodies.csv"
+file_test_instances = "fnc-1/competition_test_stances_unlabeled.csv"
+file_test_bodies = "fnc-1/competition_test_bodies.csv"
+file_predictions = "predictions_test.csv"
 
 
 # Initialise hyperparameters
