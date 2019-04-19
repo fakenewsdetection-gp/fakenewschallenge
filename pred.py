@@ -15,6 +15,7 @@
 
 # Import relevant packages and modules
 from util import *
+from score import report_score
 import random
 import tensorflow as tf
 
