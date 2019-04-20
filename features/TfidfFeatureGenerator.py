@@ -6,19 +6,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-def cosine_sim(x, y):
-    try:
-        if type(x) is np.ndarray: x = x.reshape(1, -1) # get rid of the warning
-        if type(y) is np.ndarray: y = y.reshape(1, -1)
-        d = cosine_similarity(x, y)
-        d = d[0][0]
-    except:
-        print(x)
-        print(y)
-        d = 0.
-    return d
-
-
 class TfidfFeatureGenerator(FeatureGenerator):
     
     def __init__(self, name='tfidf'):
@@ -38,7 +25,7 @@ class TfidfFeatureGenerator(FeatureGenerator):
         vectorizer_all.fit(df['all_text'])
         vocab = vectorizer_all.vocabulary_
 
-        vectorizer_headlines = TfidfVectorizer(ngram_range=(1, 3))
+        vectorizer_headlines = TfidfVectorizer(ngram_range=(1, 3), vocabulary=vocab)
         tfidf_headlines = vectorizer_headlines.fit_transform(
             df['Headline_unigram'].map(lambda x: ' '.join(x)))
         tfidf_headlines_train = tfidf_headlines[:n_train, :]
@@ -50,20 +37,22 @@ class TfidfFeatureGenerator(FeatureGenerator):
         tfidf_bodies_train = tfidf_bodies[:n_train, :]
         tfidf_bodies_test  = tfidf_bodies[n_train:, :]
 
-        tfidf_cos_sim = np.asarray(map(
-            cosine_sim, tfidf_headlines, tfidf_bodies))[:, np.newaxis]
-        tfidf_cos_sim_train = tfidf_cos_sim[:n_train]
-        tfidf_cos_sim_test  = tfidf_cos_sim[n_train:]
+        # tfidf_cos_sim = np.array(cosine_similarity(
+        #     tfidf_headlines.reshape(:, -1), tfidf_bodies.reshape(:, -1)))
+        # print(tfidf_cos_sim.shape)
+        # tfidf_cos_sim_train = tfidf_cos_sim[:n_train]
+        # tfidf_cos_sim_test  = tfidf_cos_sim[n_train:]
 
         self._dump(tfidf_headlines_train, 'train.headline.tfidf.pkl')
         self._dump(tfidf_headlines_test, 'test.headline.tfidf.pkl')
         self._dump(tfidf_bodies_train, 'train.body.tfidf.pkl')
         self._dump(tfidf_bodies_test, 'test.body.tfidf.pkl')
-        self._dump(tfidf_cos_sim_train, 'train.sim.tfidf.pkl')
-        self._dump(tfidf_cos_sim_test, 'test.sim.tfidf.pkl')
+        # self._dump(tfidf_cos_sim_train, 'train.sim.tfidf.pkl')
+        # self._dump(tfidf_cos_sim_test, 'test.sim.tfidf.pkl')
 
 
     def read(self, header='train'):
+        # files = ['.headline.tfidf.pkl', '.body.tfidf.pkl', '.sim.tfidf.pkl']
         files = ['.headline.tfidf.pkl', '.body.tfidf.pkl', '.sim.tfidf.pkl']
         files = [str(header + f) for f in files]
         res = []
@@ -71,12 +60,10 @@ class TfidfFeatureGenerator(FeatureGenerator):
         for f in files:
             with open(f, 'rb') as infile:
                 res.append(pickle.load(infile))
-        
-        res[-1] = res[-1].reshape(-1, 1)
         return res
 
 
     def _dump(self, df, filename):
-        print(filename, " --- Shape: ", df.shape)
+        print(filename, "--- Shape:", df.shape)
         with open(filename, 'wb') as outfile:
             pickle.dump(df, outfile, -1)
