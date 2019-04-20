@@ -54,7 +54,11 @@ def process():
 			print("Loaded data from data.pkl")
 			print("Data shape: ", data.shape)
 
-	
+	for g in generators:
+		g.process(data)
+
+	for g in generators:
+		g.read('train')
 
 if __name__ == '__main__':
 	process()
