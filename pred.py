@@ -15,6 +15,7 @@
 
 # Import relevant packages and modules
 from util import *
+from dataset import Dataset
 from score import report_score
 import random
 import tensorflow as tf
@@ -46,8 +47,8 @@ epochs = 90
 
 
 # Load data sets
-raw_train = FNCData(file_train_instances, file_train_bodies)
-raw_test = FNCData(file_test_instances, file_test_bodies)
+raw_train = Dataset(file_train_instances, file_train_bodies)
+raw_test = Dataset(file_test_instances, file_test_bodies)
 n_train = len(raw_train.instances)
 
 
