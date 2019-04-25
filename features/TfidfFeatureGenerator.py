@@ -53,17 +53,11 @@ class TfidfFeatureGenerator(FeatureGenerator):
 
     def read(self, header='train'):
         # files = ['.headline.tfidf.pkl', '.body.tfidf.pkl', '.sim.tfidf.pkl']
-        files = ['.headline.tfidf.pkl', '.body.tfidf.pkl', '.sim.tfidf.pkl']
-        files = [str(header + f) for f in files]
+        files = ['.headline.tfidf.pkl', '.body.tfidf.pkl']
+        files = [''.join([header, f]) for f in files]
         res = []
 
         for f in files:
             with open(f, 'rb') as infile:
                 res.append(pickle.load(infile))
         return res
-
-
-    def _dump(self, df, filename):
-        print(filename, "--- Shape:", df.shape)
-        with open(filename, 'wb') as outfile:
-            pickle.dump(df, outfile, -1)

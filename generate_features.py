@@ -2,6 +2,7 @@ import pandas as pd
 import pickle
 from preprocess import preprocess_data
 from features.TfidfFeatureGenerator import TfidfFeatureGenerator
+from features.SentimentFeatureGenerator import SentimentFeatureGenerator
 
 
 # Flags
@@ -10,7 +11,8 @@ test_flag = True
 N = -1
 
 generators = [
-	TfidfFeatureGenerator()
+	TfidfFeatureGenerator(),
+	SentimentFeatureGenerator()
 ]
 
 
@@ -64,6 +66,9 @@ def process():
 
 	for g in generators:
 		g.read('train')
+	
+	for g in generators:
+		g.read('test')
 
 
 if __name__ == '__main__':

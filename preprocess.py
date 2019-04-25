@@ -2,6 +2,8 @@ import re
 import nltk
 
 nltk.download('stopwords')
+nltk.download('vader_lexicon')
+nltk.download('punkt')
 
 token_pattern = r"(?u)\b\w\w+\b"
 stemmer = nltk.stem.PorterStemmer()
