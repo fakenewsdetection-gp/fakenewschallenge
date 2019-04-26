@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.keras.models import model_from_json
+from tensorflow.keras.models import load_model
 import random
 import os
 from util import *
@@ -19,22 +19,18 @@ file_test_instances = "fnc-1/competition_test_stances.csv"
 file_test_bodies = "fnc-1/competition_test_bodies.csv"
 file_predictions = "predictions_test.csv"
 models_dir = "models"
-weights_dir = "weights"
-mlp_weights_file = "mlp.hdf5"
-mlp_model_file = "mlp.json"
+mlp_model_file = "mlp.hdf5"
 
-# Check if models/weights directories don't exist
+# Check if models directory doesn't exist
 if not os.path.isdir(models_dir):
     os.makedirs(models_dir)
-if not os.path.isdir(weights_dir):
-    os.makedirs(weights_dir)
 
 # Initialise hyperparameters
 r = random.Random()
 lim_unigram = 5000
 num_classes = 4
 hidden_layers_dim = [100]
-dropout_rate = 0.6
+dropout_rate = 0.4
 learning_rate = 0.01
 batch_size = 500
 epochs = 90
@@ -56,15 +52,11 @@ if mode == 'train':
                             hidden_layers_dim,
                             dropout_rate=dropout_rate,
                             learning_rate=learning_rate)
-    checkpoint = ModelCheckpoint(os.path.join(weights_dir, mlp_weights_file),
+    checkpoint = ModelCheckpoint(os.path.join(models_dir, mlp_model_file),
                                     monitor='val_loss',
                                     verbose=1,
                                     save_best_only=True,
-                                    mode='min',
-                                    save_weights_only=True)
-    mlp_model_json = mlp_model.to_json()
-    with open(os.path.join(models_dir, mlp_model_file), "w") as model_file:
-                model_file.write(mlp_model_json)
+                                    mode='min')
     print(f"\n\nShape of training set (Inputs): {train_set.shape}")
     print(f"Shape of training set (Labels): {train_stances.shape}")
     mlp_history = mlp_model.fit(train_set, train_stances,
@@ -76,9 +68,7 @@ if mode == 'train':
 
 # Load model
 if mode == 'load':
-    with open(os.path.join(models_dir, mlp_model_file), "r") as model_file:
-        mlp_model = model_from_json(model_file.read())
-    mlp_model.load_weights(os.path.join(weights_dir, mlp_weights_file))
+    mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
 print(f"\n\nShape of test set (Inputs): {test_set.shape}")
 print(f"Shape of test set (Labels): {test_stances.shape}")
