@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.models import load_model
-import random
 import os
 from util import *
 from dataset import Dataset
@@ -26,7 +25,6 @@ if not os.path.isdir(models_dir):
     os.makedirs(models_dir)
 
 # Initialise hyperparameters
-r = random.Random()
 lim_unigram = 5000
 num_classes = 4
 hidden_layers_dim = [100]
