@@ -54,6 +54,11 @@ if mode == 'train':
                             learning_rate=learning_rate)
     checkpoint = ModelCheckpoint(os.path.join(models_dir, mlp_model_file), monitor='val_loss',
                                     verbose=1, save_best_only=True, mode='min')
+
+    # Debugging
+    print(train_set.shape)
+    print(train_stances.shape)
+
     mlp_history = mlp_model.fit(train_set, train_stances, epochs=epochs, batch_size=batch_size,
                                     validation_split=0.2, callbacks=[checkpoint])
     plot_history(mlp_history)
@@ -61,6 +66,10 @@ if mode == 'train':
 # Load model
 if mode == 'load':
     mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
+
+# Debugging
+print(test_set.shape)
+print(test_stances.shape)
 
 test_predictions = mlp_model.predict_classes(test_set)
 predicted = [label_ref_rev[i] for i in test_predictions]
