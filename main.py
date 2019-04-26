@@ -28,7 +28,6 @@ if not os.path.isdir(models_dir):
     os.makedirs(models_dir)
 
 # Initialise hyperparameters
-lim_unigram = 5000
 num_classes = 4
 hidden_layers_dim = [100]
 dropout_rate = 0.4
