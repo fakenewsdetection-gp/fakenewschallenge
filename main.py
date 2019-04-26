@@ -2,7 +2,6 @@ import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.models import load_model
 import os
-import random
 from util import *
 from dataset import Dataset
 from score import report_score
