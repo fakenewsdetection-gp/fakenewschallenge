@@ -48,7 +48,7 @@ if mode == 'train':
     train_instances = read(file_train_instances)
     train_stances = []
     for instance in train_instances:
-        train_stances.append(instance['Stance'])
+        train_stances.append(label_ref[instance['Stance']])
     n_train = len(train_stances)
     train_stances = np.array(train_stances)
 
@@ -83,7 +83,7 @@ if mode == 'load':
     test_instances = read(file_test_instances)
     test_stances = []
     for instance in test_instances:
-        test_stances.append(instance['Stance'])
+        test_stances.append(label_ref[instance['Stance']])
     n_test = len(test_stances)
     test_stances = np.array(test_stances)
 
