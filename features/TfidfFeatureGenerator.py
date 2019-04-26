@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 class TfidfFeatureGenerator(FeatureGenerator):
-    
+
     def __init__(self, name='tfidf'):
         super(TfidfFeatureGenerator, self).__init__(name)
 
@@ -27,13 +27,13 @@ class TfidfFeatureGenerator(FeatureGenerator):
 
         vectorizer_headlines = TfidfVectorizer(ngram_range=(1, 3), vocabulary=vocab)
         tfidf_headlines = vectorizer_headlines.fit_transform(
-            df['Headline_unigram'].map(lambda x: ' '.join(x)))
+            df['Headline_unigram'].map(lambda x: ' '.join(x))).toarray()
         tfidf_headlines_train = tfidf_headlines[:n_train, :]
         tfidf_headlines_test  = tfidf_headlines[n_train:, :]
 
         vectorizer_bodies = TfidfVectorizer(ngram_range=(1,3), vocabulary=vocab)
         tfidf_bodies = vectorizer_bodies.fit_transform(
-            df['articleBody_unigram'].map(lambda x: ' '.join(x)))
+            df['articleBody_unigram'].map(lambda x: ' '.join(x))).toarray()
         tfidf_bodies_train = tfidf_bodies[:n_train, :]
         tfidf_bodies_test  = tfidf_bodies[n_train:, :]
 
@@ -60,4 +60,4 @@ class TfidfFeatureGenerator(FeatureGenerator):
         for f in files:
             with open(f, 'rb') as infile:
                 res.append(pickle.load(infile))
-        return res
+        return np.array(res)

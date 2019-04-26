@@ -3,10 +3,12 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.models import load_model
 import os
 import random
+import itertools
 from util import *
-from dataset import Dataset
 from score import report_score
 from model import build_mlp
+from features.TfidfFeatureGenerator import TfidfFeatureGenerator
+from features.SentimentFeatureGenerator import SentimentFeatureGenerator
 
 
 random.seed(42)
@@ -16,9 +18,7 @@ mode = input('mode (load / train)? ')
 
 # Set file names
 file_train_instances = "fnc-1/train_stances.csv"
-file_train_bodies = "fnc-1/train_bodies.csv"
 file_test_instances = "fnc-1/competition_test_stances.csv"
-file_test_bodies = "fnc-1/competition_test_bodies.csv"
 file_predictions = "predictions_test.csv"
 models_dir = "models"
 mlp_model_file = "mlp.hdf5"
@@ -36,16 +36,35 @@ learning_rate = 0.005
 batch_size = 500
 epochs = 120
 
-# Load data sets
-raw_train = Dataset(file_train_instances, file_train_bodies)
-raw_test = Dataset(file_test_instances, file_test_bodies)
-n_train = len(raw_train.instances)
+# Loading training labels (stances)
+train_instances = read(file_train_instances)
+train_stances = []
+for instance in train_instances:
+    train_stances.append(instance['Stance'])
+train_stances = np.array(train_stances)
 
-# Process data sets
-train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer = \
-    pipeline_train(raw_train, raw_test, lim_unigram=lim_unigram)
-feature_size = len(train_set[0])
-test_set, test_stances = pipeline_test(raw_test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer)
+# Loading testing labels (stances)
+test_instances = read(file_test_instances)
+test_stances = []
+for instance in test_instances:
+    test_stances.append(instance['Stance'])
+test_stances = np.array(test_stances)
+
+# Loading feature vectors
+generators = [
+    TfidfFeatureGenerator(),
+    SentimentFeatureGenerator()
+]
+
+train_features_list = list(itertools.chain.from_iterable([g.read('train') for g in generators]))
+train_fature_vector = np.empty((n_train, 0))
+for f in features_list:
+    train_feature_vector = np.concatenate((feature_vector, f), axis=1)
+
+test_features_list = list(itertools.chain.from_iterable([g.read('test') for g in generators]))
+test_fature_vector = np.empty((n_train, 0))
+for f in features_list:
+    test_feature_vector = np.concatenate((feature_vector, f), axis=1)
 
 # Train model
 if mode == 'train':
@@ -60,7 +79,7 @@ if mode == 'train':
                                     mode='min')
     print(f"\n\nShape of training set (Inputs): {train_set.shape}")
     print(f"Shape of training set (Labels): {train_stances.shape}\n\n")
-    mlp_history = mlp_model.fit(train_set, train_stances,
+    mlp_history = mlp_model.fit(train_feature_vector, train_stances,
                                     epochs=epochs,
                                     batch_size=batch_size,
                                     validation_split=0.2,
@@ -75,7 +94,7 @@ print(f"\n\nShape of test set (Inputs): {test_set.shape}")
 print(f"Shape of test set (Labels): {test_stances.shape}\n\n")
 
 # Prediction
-test_predictions = mlp_model.predict_classes(test_set)
+test_predictions = mlp_model.predict_classes(test_feature_vector)
 
 predicted = [label_ref_rev[i] for i in test_predictions]
 actual = [label_ref_rev[i] for i in test_stances]
