@@ -59,7 +59,7 @@ if mode == 'train':
                                     save_best_only=True,
                                     mode='min')
     print(f"\n\nShape of training set (Inputs): {train_set.shape}")
-    print(f"Shape of training set (Labels): {train_stances.shape}")
+    print(f"Shape of training set (Labels): {train_stances.shape}\n\n")
     mlp_history = mlp_model.fit(train_set, train_stances,
                                     epochs=epochs,
                                     batch_size=batch_size,
@@ -72,7 +72,7 @@ if mode == 'load':
     mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
 print(f"\n\nShape of test set (Inputs): {test_set.shape}")
-print(f"Shape of test set (Labels): {test_stances.shape}")
+print(f"Shape of test set (Labels): {test_stances.shape}\n\n")
 
 # Prediction
 test_predictions = mlp_model.predict_classes(test_set)
@@ -80,7 +80,7 @@ test_predictions = mlp_model.predict_classes(test_set)
 predicted = [label_ref_rev[i] for i in test_predictions]
 actual = [label_ref_rev[i] for i in test_stances]
 
-print("\n\nScores on test set")
+print("Scores on test set")
 report_score(actual, predicted)
 
 # Save predictions
