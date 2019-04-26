@@ -4,6 +4,7 @@ from tensorflow.keras.models import load_model
 import os
 import random
 import itertools
+import numpy as np
 from util import *
 from score import report_score
 from model import build_mlp
