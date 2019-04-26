@@ -7,13 +7,13 @@ class Dataset:
     """
     def __init__(self, instances_filepath, bodies_filepath):
         # Load data
-        self.instances = self.read(stances_filepath)
+        self.instances = self.read(instances_filepath)
         bodies = self.read(bodies_filepath)
         self.heads = {}
         self.bodies = {}
         # Process instances
         for instance in self.instances:
-            if instances['Headline'] not in self.heads:
+            if instance['Headline'] not in self.heads:
                 head_id = len(self.heads)
                 self.heads[instance['Headline']] = head_id
             instance['Body ID'] = int(instance['Body ID'])
@@ -36,3 +36,4 @@ class Dataset:
             dict_reader = DictReader(file)
             for line in dict_reader:
                 data.append(line)
+        return data
