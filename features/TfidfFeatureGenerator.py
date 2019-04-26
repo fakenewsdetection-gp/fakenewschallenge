@@ -32,23 +32,22 @@ class TfidfFeatureGenerator(FeatureGenerator):
         tfidf_bodies_train = tfidf_bodies[:n_train, :]
         tfidf_bodies_test  = tfidf_bodies[n_train:, :]
 
-        # tfidf_cos_sim = np.array(cosine_similarity(
-        #     tfidf_headlines.reshape(:, -1), tfidf_bodies.reshape(:, -1)))
-        # print(tfidf_cos_sim.shape)
-        # tfidf_cos_sim_train = tfidf_cos_sim[:n_train]
-        # tfidf_cos_sim_test  = tfidf_cos_sim[n_train:]
+        tfidf_cos_sim = np.diagonal(cosine_similarity(
+            tfidf_headlines, tfidf_bodies)).reshape(-1, 1)
+        print(tfidf_cos_sim.shape)
+        tfidf_cos_sim_train = tfidf_cos_sim[:n_train]
+        tfidf_cos_sim_test  = tfidf_cos_sim[n_train:]
 
         self._dump(tfidf_headlines_train, 'train.headline.tfidf.pkl')
         self._dump(tfidf_headlines_test, 'test.headline.tfidf.pkl')
         self._dump(tfidf_bodies_train, 'train.body.tfidf.pkl')
         self._dump(tfidf_bodies_test, 'test.body.tfidf.pkl')
-        # self._dump(tfidf_cos_sim_train, 'train.sim.tfidf.pkl')
-        # self._dump(tfidf_cos_sim_test, 'test.sim.tfidf.pkl')
+        self._dump(tfidf_cos_sim_train, 'train.sim.tfidf.pkl')
+        self._dump(tfidf_cos_sim_test, 'test.sim.tfidf.pkl')
 
 
     def read(self, header='train'):
-        # files = ['.headline.tfidf.pkl', '.body.tfidf.pkl', '.sim.tfidf.pkl']
-        files = ['.headline.tfidf.pkl', '.body.tfidf.pkl']
+        files = ['.headline.tfidf.pkl', '.body.tfidf.pkl', '.sim.tfidf.pkl']
         files = [''.join([header, f]) for f in files]
         res = []
 
