@@ -55,9 +55,8 @@ if mode == 'train':
     checkpoint = ModelCheckpoint(os.path.join(models_dir, mlp_model_file), monitor='val_loss',
                                     verbose=1, save_best_only=True, mode='min')
 
-    # Debugging
-    print(train_set.shape)
-    print(train_stances.shape)
+    print(f"\n\nShape of training set (Inputs): {train_set.shape}")
+    print(f"\n\nShape of training set (Labels): {train_stances.shape}")
 
     mlp_history = mlp_model.fit(train_set, train_stances, epochs=epochs, batch_size=batch_size,
                                     validation_split=0.2, callbacks=[checkpoint])
@@ -68,15 +67,15 @@ if mode == 'load':
     mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
 # Debugging
-print(test_set.shape)
-print(test_stances.shape)
+print(f"\n\nShape of test set (Inputs): {test_set.shape}")
+print(f"\n\nShape of test set (Labels): {test_stances.shape}")
 
 test_predictions = mlp_model.predict_classes(test_set)
 predicted = [label_ref_rev[i] for i in test_predictions]
 actual = [label_ref_rev[i] for i in test_stances]
 
-print("Scores on the test set")
+print("\n\nScores on test set")
 report_score(actual, predicted)
 
 # Save predictions
-save_predictions(predicted, file_predictions)
+save_predictions(test_predictions, file_predictions)
