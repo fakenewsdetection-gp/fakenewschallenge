@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import model_from_json
 import random
 import os
 from util import *
@@ -19,11 +19,15 @@ file_test_instances = "fnc-1/competition_test_stances.csv"
 file_test_bodies = "fnc-1/competition_test_bodies.csv"
 file_predictions = "predictions_test.csv"
 models_dir = "models"
-mlp_model_file = "mlp.hdf5"
+weights_dir = "weights"
+mlp_weights_file = "mlp.hdf5"
+mlp_model_file = "mlp.json"
 
-# Check if models directory doesn't exist
+# Check if models/weights directories don't exist
 if not os.path.isdir("models"):
     os.makedirs("models")
+if not os.path.isdir("weights"):
+    os.makedirs("weight")
 
 # Initialise hyperparameters
 r = random.Random()
@@ -52,25 +56,36 @@ if mode == 'train':
                             hidden_layers_dim,
                             dropout_rate=dropout_rate,
                             learning_rate=learning_rate)
-    checkpoint = ModelCheckpoint(os.path.join(models_dir, mlp_model_file), monitor='val_loss',
-                                    verbose=1, save_best_only=True, mode='min')
-
+    checkpoint = ModelCheckpoint(os.path.join(weights_dir, mlp_weights_file),
+                                    monitor='val_loss',
+                                    verbose=1,
+                                    save_best_only=True,
+                                    mode='min',
+                                    save_weights_only=True)
+    mlp_model_json = mlp_model.to_json()
+    with open(os.path.join(models_dir, mlp_model_file), "w") as model_file:
+                model_file.write(mlp_model_json)
     print(f"\n\nShape of training set (Inputs): {train_set.shape}")
     print(f"\n\nShape of training set (Labels): {train_stances.shape}")
-
-    mlp_history = mlp_model.fit(train_set, train_stances, epochs=epochs, batch_size=batch_size,
-                                    validation_split=0.2, callbacks=[checkpoint])
+    mlp_history = mlp_model.fit(train_set, train_stances,
+                                    epochs=epochs,
+                                    batch_size=batch_size,
+                                    validation_split=0.2,
+                                    callbacks=[checkpoint])
     plot_history(mlp_history)
 
 # Load model
 if mode == 'load':
-    mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
+    with open(os.path.join(models_dir, mlp_model_file), "r") as model_file:
+        mlp_model = model_from_json(model_file.read())
+    mlp_model.load_weights(os.path.join(weights_dir, mlp_weights_file))
 
-# Debugging
 print(f"\n\nShape of test set (Inputs): {test_set.shape}")
 print(f"\n\nShape of test set (Labels): {test_stances.shape}")
 
+# Prediction
 test_predictions = mlp_model.predict_classes(test_set)
+
 predicted = [label_ref_rev[i] for i in test_predictions]
 actual = [label_ref_rev[i] for i in test_stances]
 
