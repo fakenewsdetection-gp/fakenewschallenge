@@ -56,8 +56,8 @@ if mode == 'train':
                                     verbose=1, save_best_only=True, mode='min')
 
     # Debugging
-    for train_sample in train_set:
-        print(len(train_sample))
+    print(train_set.shape)
+    print(train_stances.shape)
 
     mlp_history = mlp_model.fit(train_set, train_stances, epochs=epochs, batch_size=batch_size,
                                     validation_split=0.2, callbacks=[checkpoint])
