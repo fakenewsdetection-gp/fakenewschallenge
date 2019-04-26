@@ -41,6 +41,7 @@ train_instances = read(file_train_instances)
 train_stances = []
 for instance in train_instances:
     train_stances.append(instance['Stance'])
+n_train = len(train_stances)
 train_stances = np.array(train_stances)
 
 # Loading testing labels (stances)
@@ -48,6 +49,7 @@ test_instances = read(file_test_instances)
 test_stances = []
 for instance in test_instances:
     test_stances.append(instance['Stance'])
+n_test = len(test_stances)
 test_stances = np.array(test_stances)
 
 # Loading feature vectors
@@ -57,14 +59,14 @@ generators = [
 ]
 
 train_features_list = list(itertools.chain.from_iterable([g.read('train') for g in generators]))
-train_fature_vector = np.empty((n_train, 0))
-for f in features_list:
-    train_feature_vector = np.concatenate((feature_vector, f), axis=1)
+train_feature_vector = np.empty((n_train, 0))
+for f in train_features_list:
+    train_feature_vector = np.concatenate((train_feature_vector, f), axis=1)
 
 test_features_list = list(itertools.chain.from_iterable([g.read('test') for g in generators]))
-test_fature_vector = np.empty((n_train, 0))
-for f in features_list:
-    test_feature_vector = np.concatenate((feature_vector, f), axis=1)
+test_feature_vector = np.empty((n_test, 0))
+for f in test_features_list:
+    test_feature_vector = np.concatenate((test_feature_vector, f), axis=1)
 
 # Train model
 if mode == 'train':
