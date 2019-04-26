@@ -21,7 +21,6 @@ class Dataset:
         for body in bodies:
             self.bodies[int(body['Body ID'])] = body['articleBody']
 
-
     def read(self, filepath):
         """
         Read data from CSV file.

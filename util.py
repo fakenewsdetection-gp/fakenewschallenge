@@ -22,6 +22,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 
 # Initialise global variables
@@ -216,19 +217,14 @@ def pipeline_test(test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer):
     return test_set, test_stances
 
 
-def load_model(sess):
-
-    """
-
-    Load TensorFlow model
-
-    Args:
-        sess: TensorFlow session
-
-    """
-
-    saver = tf.train.Saver()
-    saver.restore(sess, './model/model.checkpoint')
+def plot_history(history):
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Model Loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['train', 'validation'], loc='upper right')
+    plt.show()
 
 
 def save_predictions(pred, file):
