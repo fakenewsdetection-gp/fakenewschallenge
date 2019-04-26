@@ -2,11 +2,14 @@ import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.models import load_model
 import os
+import random
 from util import *
 from dataset import Dataset
 from score import report_score
 from model import build_mlp
 
+
+random.seed(42)
 
 # Prompt for mode
 mode = input('mode (load / train)? ')
@@ -29,9 +32,9 @@ lim_unigram = 5000
 num_classes = 4
 hidden_layers_dim = [100]
 dropout_rate = 0.4
-learning_rate = 0.01
+learning_rate = 0.005
 batch_size = 500
-epochs = 90
+epochs = 120
 
 # Load data sets
 raw_train = Dataset(file_train_instances, file_train_bodies)
