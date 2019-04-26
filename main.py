@@ -24,10 +24,10 @@ mlp_weights_file = "mlp.hdf5"
 mlp_model_file = "mlp.json"
 
 # Check if models/weights directories don't exist
-if not os.path.isdir("models"):
-    os.makedirs("models")
-if not os.path.isdir("weights"):
-    os.makedirs("weight")
+if not os.path.isdir(models_dir):
+    os.makedirs(models_dir)
+if not os.path.isdir(weights_dir):
+    os.makedirs(weights_dir)
 
 # Initialise hyperparameters
 r = random.Random()
@@ -66,7 +66,7 @@ if mode == 'train':
     with open(os.path.join(models_dir, mlp_model_file), "w") as model_file:
                 model_file.write(mlp_model_json)
     print(f"\n\nShape of training set (Inputs): {train_set.shape}")
-    print(f"\n\nShape of training set (Labels): {train_stances.shape}")
+    print(f"Shape of training set (Labels): {train_stances.shape}")
     mlp_history = mlp_model.fit(train_set, train_stances,
                                     epochs=epochs,
                                     batch_size=batch_size,
@@ -81,7 +81,7 @@ if mode == 'load':
     mlp_model.load_weights(os.path.join(weights_dir, mlp_weights_file))
 
 print(f"\n\nShape of test set (Inputs): {test_set.shape}")
-print(f"\n\nShape of test set (Labels): {test_stances.shape}")
+print(f"Shape of test set (Labels): {test_stances.shape}")
 
 # Prediction
 test_predictions = mlp_model.predict_classes(test_set)
