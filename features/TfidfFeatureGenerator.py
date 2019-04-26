@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 class TfidfFeatureGenerator(FeatureGenerator):
-    
+
     def __init__(self, name='tfidf'):
         super(TfidfFeatureGenerator, self).__init__(name)
 
@@ -17,23 +17,18 @@ class TfidfFeatureGenerator(FeatureGenerator):
             res = '%s %s' % (' '.join(x['Headline_unigram']), ' '.join(x['articleBody_unigram']))
             return res
 
-        df['all_text'] = list(df.apply(_cat_headline_body, axis=1))
-
         n_train = df[~df['target'].isnull()].shape[0]
+        n_features = 5000
 
-        vectorizer_all = TfidfVectorizer(ngram_range=(1, 3))
-        vectorizer_all.fit(df['all_text'])
-        vocab = vectorizer_all.vocabulary_
-
-        vectorizer_headlines = TfidfVectorizer(ngram_range=(1, 3), vocabulary=vocab)
+        vectorizer_headlines = TfidfVectorizer(ngram_range=(1, 3), max_features=n_features)
         tfidf_headlines = vectorizer_headlines.fit_transform(
-            df['Headline_unigram'].map(lambda x: ' '.join(x)))
+            df['Headline_unigram'].map(lambda x: ' '.join(x))).toarray()
         tfidf_headlines_train = tfidf_headlines[:n_train, :]
         tfidf_headlines_test  = tfidf_headlines[n_train:, :]
 
-        vectorizer_bodies = TfidfVectorizer(ngram_range=(1,3), vocabulary=vocab)
+        vectorizer_bodies = TfidfVectorizer(ngram_range=(1,3), max_features=n_features)
         tfidf_bodies = vectorizer_bodies.fit_transform(
-            df['articleBody_unigram'].map(lambda x: ' '.join(x)))
+            df['articleBody_unigram'].map(lambda x: ' '.join(x))).toarray()
         tfidf_bodies_train = tfidf_bodies[:n_train, :]
         tfidf_bodies_test  = tfidf_bodies[n_train:, :]
 
