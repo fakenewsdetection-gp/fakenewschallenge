@@ -5,7 +5,6 @@ import os
 import gc
 import random
 import numpy as np
-import matplotlib.pyplot as plt
 from util import *
 from dataset import Dataset
 from score import report_score
@@ -26,9 +25,9 @@ mlp_model_file = "mlp.hdf5"
 num_classes = 4
 hidden_layers_dim = [100]
 dropout_rate = 0.4
-learning_rate = 0.005
+learning_rate = 0.01
 batch_size = 500
-epochs = 120
+epochs = 90
 
 # Check if models directory doesn't exist
 if not os.path.isdir(models_dir):
@@ -55,13 +54,7 @@ if mode == 'train':
                                 batch_size=batch_size,
                                 validation_split=0.2,
                                 callbacks=[checkpoint])
-    plt.plot(mlp_history.history['loss'])
-    plt.plot(mlp_history.history['val_loss'])
-    plt.title('Model Loss')
-    plt.ylabel('Loss')
-    plt.xlabel('Epoch')
-    plt.legend(['train', 'validation'], loc='upper right')
-    plt.show()
+    plot_history(mlp_history)
 
     del train_features
     del train_labels
