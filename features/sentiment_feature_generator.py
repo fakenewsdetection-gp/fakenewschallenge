@@ -26,7 +26,7 @@ def process(data):
             heads_sentiment[head] = _computer_sentiment(sentences)
         if body_id not in bodies_sentiment:
             sentences = sent_tokenize(data.bodies[body_id])
-            heads_sentiment[body_id] = _computer_sentiment(sentences)
+            bodies_sentiment[body_id] = _computer_sentiment(sentences)
         res.append(np.concatenate((heads_sentiment[head], bodies_sentiment[body_id]), axis=None))
 
     return np.array(res)
