@@ -35,7 +35,8 @@ if not os.path.isdir(models_dir):
 
 # Train model
 if mode == 'train':
-    train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
+    # train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
+    train_features = np.load('train.tfidf.npy')
     train_labels = np.load('train.labels.npy')
     feature_size = train_features.shape[1]
     mlp_model = build_mlp(feature_size, num_classes,
@@ -65,7 +66,8 @@ if mode == 'train':
 if mode == 'load':
     mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
-test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
+# test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
+test_features = np.load('test.tfidf.npy')
 test_labels = np.load('test.labels.npy')
 
 print(f"\n\nShape of test set (Inputs): {test_features.shape}")
