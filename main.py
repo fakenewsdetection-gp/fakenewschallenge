@@ -69,11 +69,13 @@ test_features = np.load('test.tfidf.npy')
 test_labels = np.load('test.labels.npy')
 
 print(f"\n\nShape of test set (Inputs): {test_features.shape}")
-print(f"Shape of test set (Labels): {len(test_labels)}\n\n")
+print(f"Shape of test set (Labels): {test_labels.shape}\n\n")
 
 # Prediction
 test_predictions = mlp_model.predict_classes(test_features)
+
 test_predictions = [label_ref_rev[i] for i in test_predictions]
+test_labels = [label_ref_rev[i] for i in test_labels]
 
 print("Scores on test set")
 report_score(test_labels, test_predictions)
