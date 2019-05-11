@@ -1,7 +1,6 @@
-import pandas as pd
-import pickle
 from dataset import Dataset
-from features.tf_idf_feature_generator import TfidfFeatureGenerator
+import features.tf_idf_feature_generator as tfidf
+from util import *
 
 
 # Set file names
@@ -17,9 +16,11 @@ raw_test = Dataset(file_test_instances, file_test_bodies)
 max_num_words = 5000
 
 # Process data sets
-tfidfFeatureGenerator = TfidfFeatureGenerator()
 train_data, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer = \
-    tfidfFeatureGenerator.process_train(raw_train, raw_test, max_num_words=max_num_words)
+    tfidf.process_train(raw_train, raw_test, max_num_words=max_num_words)
 feature_size = len(train_data['features'][0])
-test_data = tfidfFeatureGenerator.process_test(raw_test, bow_vectorizer,
+test_data = tfidf.process_test(raw_test, bow_vectorizer,
                                                 tfreq_vectorizer, tfidf_vectorizer)
+
+save_features(train_data, 'tfidf')
+save_features(test_data, 'tfidf', header='test')

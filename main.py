@@ -8,7 +8,6 @@ from util import *
 from dataset import Dataset
 from score import report_score
 from model import build_mlp
-from features.tf_idf_feature_generator import TfidfFeatureGenerator
 
 
 random.seed(42)
@@ -31,10 +30,9 @@ batch_size = 500
 epochs = 5
 
 # Process data sets
-tfidfFeatureGenerator = TfidfFeatureGenerator()
-train_data = tfidfFeatureGenerator.load()
+train_data = load_features('tfidf')
 feature_size = len(train_data['features'][0])
-test_data = tfidfFeatureGenerator.load(header='test')
+test_data = load_features('tfidf', header='test')
 
 # Check if models directory doesn't exist
 if not os.path.isdir(models_dir):

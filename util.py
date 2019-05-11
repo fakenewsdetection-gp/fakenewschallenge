@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from csv import DictReader
 from csv import DictWriter
+import pandas as pd
 
 
 label_ref = {'agree': 0, 'disagree': 1, 'discuss': 2, 'unrelated': 3}
@@ -31,3 +31,13 @@ def save_predictions(pred, file):
         writer.writeheader()
         for instance in pred:
             writer.writerow({'Stance': label_ref_rev[instance]})
+
+
+def load_features(name, header='train'):
+    filename = '.'.join([header, name, 'pickle'])
+    return pd.read_pickle(filename)
+
+
+def save_features(df, name, header='train'):
+    filename = '.'.join([header, name, 'pickle'])
+    df.to_pickle(filename)
