@@ -17,21 +17,41 @@ raw_test = Dataset(file_test_instances, file_test_bodies)
 
 max_num_words = 5000
 
-# Process data sets
+print("Generating tf-idf features for the training set\n")
+
+# Process training dataset
 train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer = \
     tfidf.process_train(raw_train, raw_test, max_num_words=max_num_words)
 
-train_data = pd.DataFrame({'features': train_set, 'labels': train_stances})
-save_features(train_data, 'tfidf')
+print("Saving tf-idf features for the training set\n")
 
-del train_data
+train_data = pd.DataFrame({'features': train_set, 'labels': train_stances})
+
 del train_set
 del train_stances
-
 gc.collect()
 
+save_features(train_data, 'tfidf')
+
+print("tf-idf features for the training set saved\n")
+
+del train_data
+gc.collect()
+
+print("Generating tf-idf features for the test set\n")
+
+# Process test dataset
 test_set = tfidf.process_test(raw_test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer)
+
+print("Saving tf-idf features for the test set\n")
 
 test_stances = [label_ref[instance['Stance']] for instance in raw_test.instances]
 test_data = pd.DataFrame({'features': test_set, 'labels': test_stances})
+
+del test_set
+del test_stances
+gc.collect()
+
 save_features(test_data, 'tfidf', header='test')
+
+print("tf-idf features for the test set saved\n")
