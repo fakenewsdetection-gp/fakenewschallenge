@@ -16,7 +16,7 @@ def process(data):
 
     sentiment_analyzer = SentimentIntensityAnalyzer()
     def _computer_sentiment(sentences):
-        return np.mean(np.array([sentiment_analyzer.polarity_scores(s) for s in sentences]), axis=0)
+        return np.mean([list(sentiment_analyzer.polarity_scores(s).values()) for s in sentences], axis=0)
 
     for instance in data.instances:
         head = instance['Headline']
