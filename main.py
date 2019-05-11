@@ -50,7 +50,7 @@ if mode == 'train':
                                     save_best_only=True,
                                     mode='min')
     train_features = np.array(train_data['features'].to_list())
-    train_labels = np.array(train_data['stance'].to_list())
+    train_labels = np.array(train_data['labels'].to_list())
     print(f"\n\nShape of training set (Inputs): {train_features.shape}")
     print(f"Shape of training set (Labels): {train_labels.shape}\n\n")
     mlp_history = mlp_model.fit(train_features, train_labels,
@@ -64,17 +64,17 @@ if mode == 'train':
 if mode == 'load':
     mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
-test_stances = [instance['Stance'] for instance in raw_test.instances]
 test_features = np.array(test_data['features'].to_list())
+test_labels = np.array(test_data['labels'].to_list())
 print(f"\n\nShape of test set (Inputs): {test_features.shape}")
-print(f"Shape of test set (Labels): {len(test_stances)}\n\n")
+print(f"Shape of test set (Labels): {len(test_labels)}\n\n")
 
 # Prediction
 test_predictions = mlp_model.predict_classes(test_features)
 test_predictions = [label_ref_rev[i] for i in test_predictions]
 
 print("Scores on test set")
-report_score(test_stances, test_predictions)
+report_score(test_labels, test_predictions)
 
 # Save predictions
 save_predictions(test_predictions, file_predictions)

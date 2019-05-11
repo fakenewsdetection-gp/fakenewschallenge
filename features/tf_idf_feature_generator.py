@@ -1,10 +1,14 @@
 import pandas as pd
 import numpy as np
+import nltk
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from util import *
+
+
+nltk.download('stop_words')
+stop_words = set(nltk.corpus.stopwords.words('english'))
 
 
 def process_train(train, test, max_num_words=5000):
@@ -103,8 +107,7 @@ def process_train(train, test, max_num_words=5000):
         train_set.append(feat_vec)
         train_stances.append(label_ref[instance['Stance']])
 
-    train_data = pd.DataFrame({'features': train_set, 'stance': train_stances})
-    return train_data, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer
+    return train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer
 
 
 def process_test(test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer):
@@ -155,5 +158,4 @@ def process_test(test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer):
         feat_vec = np.squeeze(np.c_[head_tf, body_tf, tfidf_cos])
         test_set.append(feat_vec)
 
-    test_data = pd.DataFrame({'features': test_set})
-    return test_data
+    return test_set
