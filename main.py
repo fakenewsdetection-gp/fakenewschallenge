@@ -5,6 +5,7 @@ import os
 import gc
 import random
 import numpy as np
+import matplotlib.pyplot as plt
 from util import *
 from dataset import Dataset
 from score import report_score
@@ -27,7 +28,7 @@ hidden_layers_dim = [100]
 dropout_rate = 0.4
 learning_rate = 0.005
 batch_size = 500
-epochs = 5
+epochs = 120
 
 # Check if models directory doesn't exist
 if not os.path.isdir(models_dir):
@@ -54,7 +55,13 @@ if mode == 'train':
                                 batch_size=batch_size,
                                 validation_split=0.2,
                                 callbacks=[checkpoint])
-    plot_history(mlp_history)
+    plt.plot(mlp_history.history['loss'])
+    plt.plot(mlp_history.history['val_loss'])
+    plt.title('Model Loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['train', 'validation'], loc='upper right')
+    plt.show()
 
     del train_features
     del train_labels

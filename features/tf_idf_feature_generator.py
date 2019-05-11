@@ -1,10 +1,13 @@
-import pandas as pd
 import numpy as np
+import nltk
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from util import *
+
+nltk.download('stopwords')
+stop_words = set(nltk.corpus.stopwords.words('english'))
 
 
 def process_train(train, test, max_num_words=5000):
