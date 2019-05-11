@@ -8,7 +8,7 @@ print(tf.keras.__version__)
 
 
 def build_mlp(input_dim, num_classes, hidden_layers_dim,
-                dropout_rate=0.6, learning_rate=0.01):
+                dropout_rate=0.5, learning_rate=0.01):
     model = Sequential()
     for i, layer_dim in enumerate(hidden_layers_dim):
         if i == 0:
@@ -17,6 +17,6 @@ def build_mlp(input_dim, num_classes, hidden_layers_dim,
             model.add(Dense(layer_dim, activation='relu'))
         model.add(Dropout(dropout_rate))
     model.add(Dense(num_classes, activation='softmax'))
-    model.compile(Adam(lr=learning_rate), loss='sparse_categorical_crossentropy')
+    model.compile(Adam(lr=learning_rate, amsgrad=True), loss='sparse_categorical_crossentropy')
     model.summary()
     return model

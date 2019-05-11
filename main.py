@@ -4,6 +4,7 @@ from tensorflow.keras.models import load_model
 import os
 import gc
 import random
+import pickle
 import numpy as np
 from util import *
 from dataset import Dataset
@@ -16,6 +17,13 @@ random.seed(42)
 # Prompt for mode
 mode = input('mode (load / train)? ')
 
+# Prompt for path of hyperparameters dictionary file
+hyperparameters_filepath = input('Hyperparameter filepath')
+
+# Loading hyperparameters dictionary
+with open(hyperparameters_filepath, 'rb') as hyperparametes_file:
+    hyperparameters = pickle.load(hyperparametes_file)
+
 # Set file names
 file_predictions = "predictions_test.csv"
 models_dir = "models"
@@ -23,11 +31,11 @@ mlp_model_file = "mlp.hdf5"
 
 # Initialise hyperparameters
 num_classes = 4
-hidden_layers_dim = [100]
-dropout_rate = 0.5
-learning_rate = 0.01
-batch_size = 500
-epochs = 90
+hidden_layers_dim = hyperparameters[hidden_layers_dim]
+dropout_rate = hyperparameters[dropout_rate]
+learning_rate = hyperparameters[learning_rate]
+batch_size = hyperparameters[batch_size]
+epochs = hyperparameters[epochs]
 
 # Check if models directory doesn't exist
 if not os.path.isdir(models_dir):
@@ -35,8 +43,7 @@ if not os.path.isdir(models_dir):
 
 # Train model
 if mode == 'train':
-    # train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
-    train_features = np.load('train.tfidf.npy')
+    train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
     train_labels = np.load('train.labels.npy')
     feature_size = train_features.shape[1]
     mlp_model = build_mlp(feature_size, num_classes,
@@ -66,8 +73,7 @@ if mode == 'train':
 if mode == 'load':
     mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
-# test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
-test_features = np.load('test.tfidf.npy')
+test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
 test_labels = np.load('test.labels.npy')
 
 print(f"\n\nShape of test set (Inputs): {test_features.shape}")
