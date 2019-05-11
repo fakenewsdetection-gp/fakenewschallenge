@@ -13,21 +13,21 @@ stop_words = set(nltk.corpus.stopwords.words('english'))
 
 def process_train(train, test, max_num_words=5000):
     """
-    Process train set, create relevant vectorizers
+    Process train set, create relevant vectorizers.
 
         Args:
-            train: Dataset object, train set
-            test: Dataset object, test set
-            max_num_words: int, number of most frequent words to consider. It defaults to 5000
+            train: Dataset object, train set.
+            test: Dataset object, test set.
+            max_num_words: int, number of most frequent words to consider. Default is 5000.
 
         Returns:
-            train_data: pandas dataframe, contains the generated features and stances
-            bow_vectorizer: sklearn CountVectorizer
-            tfreq_vectorizer: sklearn TfidfTransformer(use_idf=False)
-            tfidf_vectorizer: sklearn TfidfVectorizer()
+            train_data: pandas dataframe, contains the generated features and stances.
+            bow_vectorizer: sklearn CountVectorizer.
+            tfreq_vectorizer: sklearn TfidfTransformer(use_idf=False).
+            tfidf_vectorizer: sklearn TfidfVectorizer().
     """
 
-    # Initialise
+    # Initialize
     heads = []
     heads_track = {}
     bodies = []
@@ -112,16 +112,16 @@ def process_train(train, test, max_num_words=5000):
 
 def process_test(test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer):
     """
-    Process test set
+    Process test set.
 
         Args:
-            test: Dataset object, test set
-            bow_vectorizer: sklearn CountVectorizer
-            tfreq_vectorizer: sklearn TfidfTransformer(use_idf=False)
-            tfidf_vectorizer: sklearn TfidfVectorizer()
+            test: Dataset object, test set.
+            bow_vectorizer: sklearn CountVectorizer.
+            tfreq_vectorizer: sklearn TfidfTransformer(use_idf=False).
+            tfidf_vectorizer: sklearn TfidfVectorizer().
 
         Returns:
-            test_data: pandas dataframe, contains the generated features only
+            test_data: pandas dataframe, contains the generated features only.
     """
 
     # Initialise
