@@ -3,8 +3,10 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.tokenize import sent_tokenize
 
+
 nltk.download('vader_lexicon')
 nltk.download('punkt')
+
 
 def process(data):
     # Initialize
@@ -14,7 +16,7 @@ def process(data):
 
     sentiment_analyzer = SentimentIntensityAnalyzer()
     def _computer_sentiment(sentences):
-        return np.array([sentiment_analyzer.polarity_scores(s) for s in sentences]).mean()
+        return np.mean(np.array([sentiment_analyzer.polarity_scores(s) for s in sentences]), axis=0)
 
     for instance in data.instances:
         head = instance['Headline']
