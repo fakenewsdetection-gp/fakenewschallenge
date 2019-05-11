@@ -4,6 +4,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.tokenize import sent_tokenize
 
 nltk.download('vader_lexicon')
+nltk.download('punkt')
 
 def process(data):
     # Initialize
