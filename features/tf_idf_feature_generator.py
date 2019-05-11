@@ -103,7 +103,7 @@ def process_train(train, test, max_num_words=5000):
         train_set.append(feat_vec)
         train_stances.append(label_ref[instance['Stance']])
 
-    return train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer
+    return np.array(train_set), np.array(train_stances), bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer
 
 
 def process_test(test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer):
