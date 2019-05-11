@@ -19,7 +19,6 @@ max_num_words = 5000
 # Process data sets
 train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer = \
     tfidf.process_train(raw_train, raw_test, max_num_words=max_num_words)
-feature_size = len(train_data['features'][0])
 test_set = tfidf.process_test(raw_test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer)
 
 test_stances = [label_ref[instance['Stance']] for instance in raw_test.instances]
