@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-nltk.download('stop_words')
+nltk.download('stopwords')
 stop_words = set(nltk.corpus.stopwords.words('english'))
 
 
