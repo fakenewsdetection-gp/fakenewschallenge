@@ -68,10 +68,7 @@ if mode == 'train':
     del train_labels
     gc.collect()
 
-
-# Load model
-if mode == 'load':
-    mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
+mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
 test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
 test_labels = np.load('test.labels.npy')
