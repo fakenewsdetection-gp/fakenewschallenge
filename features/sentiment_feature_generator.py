@@ -9,6 +9,16 @@ nltk.download('punkt')
 
 
 def process(data):
+    """
+    Process dataset.
+
+        Args:
+            data: Dataset object.
+
+        Returns:
+            res: numpy array of numpy arrays which contain the
+                 sentiment features of each headline and body pair.
+    """
     # Initialize
     heads_sentiment = {}
     bodies_sentiment = {}

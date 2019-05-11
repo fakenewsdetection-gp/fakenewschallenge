@@ -18,7 +18,7 @@ random.seed(42)
 mode = input('mode (load / train)? ')
 
 # Prompt for path of hyperparameters dictionary file
-hyperparameters_filepath = input('Hyperparameter filepath')
+hyperparameters_filepath = input('hyperparameters filepath: ')
 
 # Loading hyperparameters dictionary
 with open(hyperparameters_filepath, 'rb') as hyperparametes_file:

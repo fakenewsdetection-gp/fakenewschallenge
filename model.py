@@ -17,6 +17,6 @@ def build_mlp(input_dim, num_classes, hidden_layers_dim,
             model.add(Dense(layer_dim, activation='relu'))
         model.add(Dropout(dropout_rate))
     model.add(Dense(num_classes, activation='softmax'))
-    model.compile(Adam(lr=learning_rate, amsgrad=True), loss='sparse_categorical_crossentropy')
+    model.compile(Adam(lr=learning_rate), loss='sparse_categorical_crossentropy')
     model.summary()
     return model
