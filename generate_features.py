@@ -60,6 +60,8 @@ del test_set
 del test_stances
 gc.collect()
 
+print("\nSaving sentiment features of the training set\n")
+
 # Generate sentiment features for the test dataset
 test_set = sent.process(raw_test)
 

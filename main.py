@@ -31,11 +31,11 @@ mlp_model_file = "mlp.hdf5"
 
 # Initialise hyperparameters
 num_classes = 4
-hidden_layers_dim = hyperparameters[hidden_layers_dim]
-dropout_rate = hyperparameters[dropout_rate]
-learning_rate = hyperparameters[learning_rate]
-batch_size = hyperparameters[batch_size]
-epochs = hyperparameters[epochs]
+hidden_layers_dim = hyperparameters["hidden_layers_dim"]
+dropout_rate = hyperparameters["dropout_rate"]
+learning_rate = hyperparameters["learning_rate"]
+batch_size = hyperparameters["batch_size"]
+epochs = hyperparameters["epochs"]
 
 # Check if models directory doesn't exist
 if not os.path.isdir(models_dir):
