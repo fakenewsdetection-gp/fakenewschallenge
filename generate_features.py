@@ -1,19 +1,7 @@
 import pandas as pd
 import pickle
-from preprocess import preprocess_data
-from features.TfidfFeatureGenerator import TfidfFeatureGenerator
-from features.SentimentFeatureGenerator import SentimentFeatureGenerator
-
-
-# Flags
-read_flag = True
-test_flag = True
-N = -1
-
-generators = [
-	TfidfFeatureGenerator(),
-	SentimentFeatureGenerator()
-]
+from features.tf_idf_feature_generator import TfidfFeatureGenerator
+from features.sentiment_feature_generator import SentimentFeatureGenerator
 
 
 def process():
@@ -29,7 +17,7 @@ def process():
 
 		if N != -1:
 			train = train[:N]
-		
+
 		data = train
 		# Read testing set, concatenate both training and testing set in data.
 		if test_flag:
@@ -41,7 +29,7 @@ def process():
 				test = test[:N]
 
 			data = pd.concat((train, test))
-			
+
 			train = data[~data['target'].isnull()]
 			test = data[data['target'].isnull()]
 
@@ -55,7 +43,7 @@ def process():
 
 		# Write to file
 		data.to_pickle('data.pkl')
-		
+
 	else:
 		data = pd.read_pickle('data.pkl')
 		print('Loaded data from data.pkl')
@@ -66,11 +54,10 @@ def process():
 
 	for g in generators:
 		g.read('train')
-	
+
 	for g in generators:
 		g.read('test')
 
 
 if __name__ == '__main__':
 	process()
-

@@ -7,24 +7,6 @@ label_ref = {'agree': 0, 'disagree': 1, 'discuss': 2, 'unrelated': 3}
 label_ref_rev = {0: 'agree', 1: 'disagree', 2: 'discuss', 3: 'unrelated'}
 
 
-def read(filepath):
-    """
-    Read data from CSV file.
-
-    Args:
-        filepath: str, representing the path of the csv file.
-
-    Returns:
-        data: list, representing data instances in the form of dictionaries.
-    """
-    data = []
-    with open(filepath, "r", encoding='utf-8') as file:
-        dict_reader = DictReader(file)
-        for line in dict_reader:
-            data.append(line)
-    return data
-
-
 def plot_history(history):
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
