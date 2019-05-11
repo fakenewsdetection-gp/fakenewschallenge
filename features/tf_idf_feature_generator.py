@@ -155,7 +155,7 @@ def process_test(test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer):
             cos_track[(head, body_id)] = tfidf_cos
         else:
             tfidf_cos = cos_track[(head, body_id)]
-        feat_vec = np.squeeze(np.c_[head_tf, tfidf_cos, body_tf])
+        feat_vec = np.squeeze(np.c_[head_tf, body_tf, tfidf_cos])
         test_set.append(feat_vec)
 
     return test_set
