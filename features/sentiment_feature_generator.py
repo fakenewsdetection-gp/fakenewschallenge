@@ -3,7 +3,7 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.tokenize import sent_tokenize
 
-nltk.download('vader-lexicon')
+nltk.download('vader_lexicon')
 
 def process(data):
     # Initialize
