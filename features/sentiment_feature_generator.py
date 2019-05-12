@@ -27,7 +27,7 @@ def process(data):
     sentiment_analyzer = SentimentIntensityAnalyzer()
     def _computer_sentiment(sentences):
         return np.mean([list(sentiment_analyzer.polarity_scores(s).values()) for s in sentences], axis=0)
-
+        
     for instance in data.instances:
         head = instance['Headline']
         body_id = instance['Body ID']
@@ -38,5 +38,4 @@ def process(data):
             sentences = sent_tokenize(data.bodies[body_id])
             bodies_sentiment[body_id] = _computer_sentiment(sentences)
         res.append(np.concatenate((heads_sentiment[head], bodies_sentiment[body_id]), axis=None))
-
     return np.array(res)

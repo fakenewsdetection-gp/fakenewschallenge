@@ -106,7 +106,6 @@ def process_train(train, test, max_num_words=5000):
         feat_vec = np.squeeze(np.c_[head_tf, body_tf, tfidf_cos])
         train_set.append(feat_vec)
         train_stances.append(label_ref[instance['Stance']])
-
     return np.array(train_set), np.array(train_stances), bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer
 
 
@@ -157,5 +156,4 @@ def process_test(test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer):
             tfidf_cos = cos_track[(head, body_id)]
         feat_vec = np.squeeze(np.c_[head_tf, body_tf, tfidf_cos])
         test_set.append(feat_vec)
-
     return test_set
