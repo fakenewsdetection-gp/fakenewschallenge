@@ -34,6 +34,7 @@ num_classes = 4
 hidden_layers_dim = hyperparameters["hidden_layers_dim"]
 dropout_rate = hyperparameters["dropout_rate"]
 learning_rate = hyperparameters["learning_rate"]
+learning_rate_decay = hyperparameters["learning_rate_decay"]
 batch_size = hyperparameters["batch_size"]
 epochs = hyperparameters["epochs"]
 
@@ -49,7 +50,8 @@ if mode == 'train':
     mlp_model = build_mlp(feature_size, num_classes,
                             hidden_layers_dim,
                             dropout_rate=dropout_rate,
-                            learning_rate=learning_rate)
+                            learning_rate=learning_rate,
+                            learning_rate_decay=learning_rate_decay)
     checkpoint = ModelCheckpoint(os.path.join(models_dir, mlp_model_file),
                                     monitor='val_loss',
                                     verbose=1,
