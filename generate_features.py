@@ -4,6 +4,7 @@ from dataset import Dataset
 import features.tf_idf_feature_generator as tfidf
 import features.sentiment_feature_generator as sent
 from util import *
+from cleanup import *
 
 
 # Set file names
@@ -17,6 +18,16 @@ raw_train = Dataset(file_train_instances, file_train_bodies)
 raw_test = Dataset(file_test_instances, file_test_bodies)
 
 max_num_words = 5000
+
+print("\nCleaning up data\n")
+
+# Cleanup train and test data
+cleaner = TextCleaner()
+
+raw_train.bodies = {k: cleaner.cleanup_text(v, remove_punctuation=False) for k, v in raw_train.bodies.items()}
+raw_train.heads  = {cleaner.cleanup_text(k, remove_punctuation=False): v for k, v in raw_train.heads.items()}
+raw_test.bodies  = {k: cleaner.cleanup_text(v, remove_punctuation=False) for k, v in raw_test.bodies.items()}
+raw_test.heads   = {cleaner.cleanup_text(k, remove_punctuation=False): v for k, v in raw_test.heads.items()}
 
 print("\nGenerating tf-idf features for the training set\n")
 
