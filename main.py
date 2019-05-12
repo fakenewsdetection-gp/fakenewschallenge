@@ -32,7 +32,7 @@ mlp_model_file = "mlp.hdf5"
 # Initialise hyperparameters
 num_classes = 4
 hidden_layers_dim = hyperparameters["hidden_layers_dim"]
-dropout_rate = hyperparameters["dropout_rate"]
+lambda_rate = hyperparameters["lambda_rate"]
 learning_rate = hyperparameters["learning_rate"]
 learning_rate_decay = hyperparameters["learning_rate_decay"]
 batch_size = hyperparameters["batch_size"]
@@ -49,7 +49,7 @@ if mode == 'train':
     feature_size = train_features.shape[1]
     mlp_model = build_mlp(feature_size, num_classes,
                             hidden_layers_dim,
-                            dropout_rate=dropout_rate,
+                            lambda_rate=lambda_rate,
                             learning_rate=learning_rate,
                             learning_rate_decay=learning_rate_decay)
     checkpoint = ModelCheckpoint(os.path.join(models_dir, mlp_model_file),
