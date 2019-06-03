@@ -18,7 +18,7 @@ tf.set_random_seed(42)
 mode = input('mode (load / train)? ')
 
 # Prompt whether to use sentiment features or not
-sentiment = input('sentiment (yes / no)?')
+sentiment = input('sentiment (yes / no)? ')
 
 # Prompt for path of hyperparameters dictionary file
 hyperparameters_filepath = input('hyperparameters filepath: ')
