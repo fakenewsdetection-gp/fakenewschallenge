@@ -3,7 +3,6 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.models import load_model
 import os
 import gc
-import random
 import pickle
 import numpy as np
 from util import *
@@ -12,10 +11,14 @@ from score import report_score
 from model import build_mlp
 
 
-random.seed(42)
+np.random.seed(23)
+tf.set_random_seed(42)
 
 # Prompt for mode
 mode = input('mode (load / train)? ')
+
+# Prompt whether to use sentiment features or not
+sentiment = input('sentiment (yes / no)?')
 
 # Prompt for path of hyperparameters dictionary file
 hyperparameters_filepath = input('hyperparameters filepath: ')
@@ -44,7 +47,10 @@ if not os.path.isdir(models_dir):
 
 # Train model
 if mode == 'train':
-    train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
+    if sentiment:
+        train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
+    else:
+        train_features = np.load('train.tfidf.npy')
     train_labels = np.load('train.labels.npy')
     feature_size = train_features.shape[1]
     mlp_model = build_mlp(feature_size, num_classes,

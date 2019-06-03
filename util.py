@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+from pylab import *
 from csv import DictWriter
 
 
