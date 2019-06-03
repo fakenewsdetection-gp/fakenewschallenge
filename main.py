@@ -47,7 +47,7 @@ if not os.path.isdir(models_dir):
 
 # Train model
 if mode == 'train':
-    if sentiment:
+    if sentiment == 'yes':
         train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
     else:
         train_features = np.load('train.tfidf.npy')
@@ -78,7 +78,7 @@ if mode == 'train':
 
 mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
-if sentiment:
+if sentiment == 'yes':
     test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
 else:
     test_features = np.load('test.tfidf.npy')
