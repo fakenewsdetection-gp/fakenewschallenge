@@ -15,13 +15,13 @@ np.random.seed(23)
 tf.set_random_seed(42)
 
 # Prompt for mode
-mode = input('mode (load / train)? ')
+mode = input('Mode (load / train)? ')
 
 # Prompt whether to use sentiment features or not
-sentiment = input('sentiment (yes / no)? ')
+sentiment = input('Use sentiment features (yes / no)? ')
 
 # Prompt for path of hyperparameters dictionary file
-hyperparameters_filepath = input('hyperparameters filepath: ')
+hyperparameters_filepath = input('Hyperparameters filepath: ')
 
 # Loading hyperparameters dictionary
 with open(hyperparameters_filepath, 'rb') as hyperparametes_file:
@@ -78,7 +78,10 @@ if mode == 'train':
 
 mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
-test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
+if sentiment:
+    test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
+else:
+    test_features = np.load('test.tfidf.npy')
 test_labels = np.load('test.labels.npy')
 
 print(f"\n\nShape of test set (Inputs): {test_features.shape}")
