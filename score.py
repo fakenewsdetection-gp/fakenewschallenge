@@ -1,9 +1,9 @@
 #Adapted from https://github.com/FakeNewsChallenge/fnc-1/blob/master/scorer.py
 #Original credit - @bgalbraith
 
-LABELS = ['agree', 'disagree', 'discuss', 'unrelated']
+LABELS = ['stanced', 'discuss', 'unrelated']
 LABELS_RELATED = ['unrelated','related']
-RELATED = LABELS[0:3]
+RELATED = LABELS[0:2]
 
 def score_submission(gold_labels, test_labels):
     score = 0.0

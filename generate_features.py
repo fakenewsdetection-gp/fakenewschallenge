@@ -35,6 +35,9 @@ print("\nGenerating tf-idf features for training set\n")
 train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer = \
     tfidf.process_train(raw_train, raw_test, max_num_words=max_num_words)
 
+print("\nTraining stances\n")
+print(train_stances[:10])
+
 print("\nSaving tf-idf features and labels of training set\n")
 
 np.save('train.tfidf', train_set)

@@ -2,8 +2,8 @@ from pylab import *
 from csv import DictWriter
 
 
-label_ref = {'agree': 0, 'disagree': 1, 'discuss': 2, 'unrelated': 3}
-label_ref_rev = {0: 'agree', 1: 'disagree', 2: 'discuss', 3: 'unrelated'}
+label_ref = {'stanced': 0, 'discuss': 1, 'unrelated': 2}
+label_ref_rev = {0: 'stanced', 1: 'discuss', 2: 'unrelated'}
 
 
 def plot_history(history):
