@@ -8,9 +8,9 @@ from cleanup import *
 
 
 # Set file names
-file_train_instances = "fnc-1/train_stances.csv"
+file_train_instances = "fnc-1/train_stances_ucl.csv"
 file_train_bodies = "fnc-1/train_bodies.csv"
-file_test_instances = "fnc-1/competition_test_stances.csv"
+file_test_instances = "fnc-1/competition_test_stances_ucl.csv"
 file_test_bodies = "fnc-1/competition_test_bodies.csv"
 
 # Load data sets
