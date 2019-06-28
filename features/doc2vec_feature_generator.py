@@ -73,7 +73,7 @@ def process_train(train, test, max_num_words=5000):
 
     model.build_vocab(tagged_data)
 
-    for epoch in range(max_epochs):
+    for epoch in range(1):
         model.train(tagged_data,
                 total_examples=model.corpus_count,
                 epochs=model.iter)
