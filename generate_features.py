@@ -3,6 +3,7 @@ import gc
 from dataset import Dataset
 import features.tf_idf_feature_generator as tfidf
 import features.sentiment_feature_generator as sent
+import features.doc2vec_feature_generator as doc2vec
 from util import *
 from cleanup import *
 
@@ -29,15 +30,30 @@ raw_train.heads  = {cleaner.cleanup_text(k, remove_punctuation=False): v for k, 
 raw_test.bodies  = {k: cleaner.cleanup_text(v, remove_punctuation=False) for k, v in raw_test.bodies.items()}
 raw_test.heads   = {cleaner.cleanup_text(k, remove_punctuation=False): v for k, v in raw_test.heads.items()}
 
-print("\nGenerating tf-idf features for training set\n")
+# print("\nGenerating tf-idf features for training set\n")
 
-# Generate tf-idf features for the training dataset
-train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer = \
-    tfidf.process_train(raw_train, raw_test, max_num_words=max_num_words)
+# # Generate tf-idf features for the training dataset
+# train_set, train_stances, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer = \
+#     tfidf.process_train(raw_train, raw_test, max_num_words=max_num_words)
 
-print("\nSaving tf-idf features and labels of training set\n")
+# print("\nSaving tf-idf features and labels of training set\n")
 
-np.save('train.tfidf', train_set)
+# np.save('train.tfidf', train_set)
+# np.save('train.labels', train_stances)
+
+# del train_set
+# del train_stances
+# gc.collect()
+
+print("\nGenerating doc2vec features for training set\n")
+
+# Generate doc2vec features for the training dataset
+train_set, train_stances, doc2vec_model = \
+    doc2vec.process_train(raw_train, raw_test, max_num_words=max_num_words)
+
+print("\nSaving doc2vec features and labels of training set\n")
+
+np.save('train.doc2vec', train_set)
 np.save('train.labels', train_stances)
 
 del train_set
