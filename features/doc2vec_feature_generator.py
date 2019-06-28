@@ -102,7 +102,7 @@ def process_train(train, test, max_num_words=5000):
             cos_track[(head, body_id)] = docvec_cos
         else:
             cos_track[(head, body_id)] = docvec_cos
-        feat_vec = np.squeeze(np.c[head_docvec, body_docvec, docvec_cos])
+        feat_vec = np.squeeze(np.c_[head_docvec, body_docvec, docvec_cos])
         train_set.append(feat_vec)
         train_stances.append(label_ref[instance['Stance']])
     return np.array(train_set), np.array(train_stances), model
