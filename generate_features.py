@@ -90,7 +90,7 @@ gc.collect()
 print("\nGenerating doc2vec features for test set\n")
 
 # Generate tf-idf features for the test dataset
-test_set = doc2vec.process_test(raw_test, model)
+test_set = doc2vec.process_test(raw_test, doc2vec_model)
 test_stances = [label_ref[instance['Stance']] for instance in raw_test.instances]
 
 print("\nSaving doc2vec features and labels of test set\n")
