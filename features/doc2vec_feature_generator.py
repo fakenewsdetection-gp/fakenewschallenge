@@ -90,7 +90,7 @@ def process_train(train, test, max_num_words=5000):
                 head_docvec = model.docvecs(id_ref[head])
                 head_docvec_track[head] = head_docvec
         except:
-            print('Error: ', instance)
+            print('Error: ', id_ref[head])
         else:
             head_docvec = head_docvec_track[head]
 
