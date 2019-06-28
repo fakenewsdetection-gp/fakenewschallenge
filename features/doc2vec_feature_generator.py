@@ -69,7 +69,7 @@ def process_train(train, test, max_num_words=5000):
                     alpha=alpha,
                     min_alpha=0.00025,
                     min_count=1,
-                    dm =1)
+                    dm=1)
 
     model.build_vocab(tagged_data)
 
@@ -85,9 +85,12 @@ def process_train(train, test, max_num_words=5000):
     for instance in train.instances:
         head = instance['Headline']
         body_id = instance['Body ID']
-        if head not in head_docvec_track:
-            head_docvec = model.docvecs(id_ref[head])
-            head_docvec_track[head] = head_docvec
+        try:
+            if head not in head_docvec_track:
+                head_docvec = model.docvecs(id_ref[head])
+                head_docvec_track[head] = head_docvec
+        except:
+            print('Error: ', instance)
         else:
             head_docvec = head_docvec_track[head]
 
