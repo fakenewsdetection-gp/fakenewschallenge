@@ -86,13 +86,13 @@ def process_train(train, test, max_num_words=5000):
         head = instance['Headline']
         body_id = instance['Body ID']
         if head not in head_docvec_track:
-            head_docvec = model.docvecs[id_ref[head]]
+            head_docvec = model.docvecs[id_ref[head]].reshape(1, -1)
             head_docvec_track[head] = head_docvec
         else:
             head_docvec = head_docvec_track[head]
 
         if body_id not in body_docvec_track:
-            body_docvec = model.docvecs[id_ref[body_id]]
+            body_docvec = model.docvecs[id_ref[body_id]].reshape(1, -1)
             body_docvec_track[body_id] = body_docvec
         else:
             body_docvec = body_docvec_track[body_id]
