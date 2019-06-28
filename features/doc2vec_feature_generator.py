@@ -135,7 +135,7 @@ def process_test(test, model, steps=1000):
         else:
             head_docvec = heads_track[head]
         if body_id not in bodies_track:
-            body_docvec = model.infer_vector(nltk.tokenize.word_tokenize(body.lower()), steps=steps).reshape(1, -1)
+            body_docvec = model.infer_vector(nltk.tokenize.word_tokenize(test.bodies[body_id].lower()), steps=steps).reshape(1, -1)
             bodies_track[body_id] = body_docvec
         else:
             body_docvec = bodies_track[body_id]
