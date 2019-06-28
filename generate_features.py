@@ -72,13 +72,28 @@ np.save('train.sent', train_set)
 del train_set
 gc.collect()
 
-print("\nGenerating tf-idf features for test set\n")
+# print("\nGenerating tf-idf features for test set\n")
+
+# # Generate tf-idf features for the test dataset
+# test_set = tfidf.process_test(raw_test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer)
+# test_stances = [label_ref[instance['Stance']] for instance in raw_test.instances]
+
+# print("\nSaving tf-idf features and labels of test set\n")
+
+# np.save('test.tfidf', test_set)
+# np.save('test.labels', test_stances)
+
+# del test_set
+# del test_stances
+# gc.collect()
+
+print("\nGenerating doc2vec features for test set\n")
 
 # Generate tf-idf features for the test dataset
-test_set = tfidf.process_test(raw_test, bow_vectorizer, tfreq_vectorizer, tfidf_vectorizer)
+test_set = doc2vec.process_test(raw_test, model)
 test_stances = [label_ref[instance['Stance']] for instance in raw_test.instances]
 
-print("\nSaving tf-idf features and labels of test set\n")
+print("\nSaving doc2vec features and labels of test set\n")
 
 np.save('test.tfidf', test_set)
 np.save('test.labels', test_stances)
