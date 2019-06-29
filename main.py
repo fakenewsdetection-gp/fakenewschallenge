@@ -81,9 +81,9 @@ if mode == 'train':
 mlp_model = load_model(os.path.join(models_dir, mlp_model_file))
 
 if sentiment == 'yes':
-    test_features = np.concatenate((np.load('test.tfidf.npy'), np.load('test.sent.npy')), axis=1)
+    test_features = np.concatenate((np.load('test.doc2vec.npy'), np.load('test.sent.npy')), axis=1)
 else:
-    test_features = np.load('test.tfidf.npy')
+    test_features = np.load('test.doc2vec.npy')
 test_labels = np.load('test.labels.npy')
 
 print(f"\n\nShape of test set (Inputs): {test_features.shape}")

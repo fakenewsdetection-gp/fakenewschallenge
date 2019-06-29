@@ -95,7 +95,7 @@ test_stances = [label_ref[instance['Stance']] for instance in raw_test.instances
 
 print("\nSaving doc2vec features and labels of test set\n")
 
-np.save('test.tfidf', test_set)
+np.save('test.doc2vec', test_set)
 np.save('test.labels', test_stances)
 
 del test_set
