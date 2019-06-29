@@ -48,9 +48,11 @@ if not os.path.isdir(models_dir):
 # Train model
 if mode == 'train':
     if sentiment == 'yes':
-        train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
+        # train_features = np.concatenate((np.load('train.tfidf.npy'), np.load('train.sent.npy')), axis=1)
+        train_features = np.concatenate((np.load('train.doc2vec.npy'), np.load('train.sent.npy')), axis=1)
     else:
-        train_features = np.load('train.tfidf.npy')
+        # train_features = np.load('train.tfidf.npy')
+        train_features = np.load('train.doc2vec.npy')
     train_labels = np.load('train.labels.npy')
     feature_size = train_features.shape[1]
     mlp_model = build_mlp(feature_size, num_classes,
