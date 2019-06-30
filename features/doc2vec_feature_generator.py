@@ -62,7 +62,7 @@ def process_train(train, test, max_num_words=5000):
         tags=[str(i)]) for i, _d in enumerate(heads + bodies)]
 
     max_epochs = 100
-    vec_size = 1000
+    vec_size = 5000
     alpha = 0.025
 
     model = Doc2Vec(size=vec_size,
