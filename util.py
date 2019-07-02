@@ -4,7 +4,7 @@ from csv import DictWriter
 
 label_ref = {'agree': 0, 'disagree': 1, 'discuss': 2, 'unrelated': 3}
 label_ref_rev = {0: 'agree', 1: 'disagree', 2: 'discuss', 3: 'unrelated'}
-sample_weight = {0: 1, 1: 1, 2: 1, 3: 0.75}
+samples_weight = {0: 1, 1: 1, 2: 1, 3: 0.75}
 
 
 def plot_history(history):

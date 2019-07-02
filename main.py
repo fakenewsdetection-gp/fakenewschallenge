@@ -62,7 +62,7 @@ if mode == 'train':
         hot_encoded[label] = 1
         train_stances.append(hot_encoded)
         if sample_weight:
-            train_sample_weight.append(sample_weight[label])
+            train_sample_weight.append(samples_weight[label])
     train_stances = np.array(train_stances)
     if sample_weight:
         train_sample_weight = np.array(train_sample_weight)
