@@ -57,16 +57,16 @@ def process_train(train, test, max_num_words=5000):
             bodies_track[body_id] = 1
             body_ids.append(body_id)
 
-    for instance in test.instances:
-        head = instance['Headline']
-        body_id = instance['Body ID']
-        if head not in test_heads_track:
-            test_heads.append(head)
-            test_heads_track[head] = 1
-        if body_id not in test_bodies_track:
-            test_bodies.append(test.bodies[body_id])
-            test_bodies_track[body_id] = 1
-            test_body_ids.append(body_id)
+    # for instance in test.instances:
+    #     head = instance['Headline']
+    #     body_id = instance['Body ID']
+    #     if head not in test_heads_track:
+    #         test_heads.append(head)
+    #         test_heads_track[head] = 1
+    #     if body_id not in test_bodies_track:
+    #         test_bodies.append(test.bodies[body_id])
+    #         test_bodies_track[body_id] = 1
+    #         test_body_ids.append(body_id)
 
     # Create reference dictionary
     for i, elem in enumerate(heads + body_ids):
@@ -80,8 +80,8 @@ def process_train(train, test, max_num_words=5000):
     tfreq = tfreq_vectorizer.transform(bow).toarray()  # Train set only
 
     tfidf_vectorizer = TfidfVectorizer(max_features=max_num_words, stop_words=stop_words).\
-        fit(heads + bodies + test_heads + test_bodies)  # Train and test sets
-
+        # fit(heads + bodies + test_heads + test_bodies)  # Train and test sets
+        fit(heads + bodies)
     # Process train set
     for instance in train.instances:
         head = instance['Headline']
