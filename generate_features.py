@@ -24,10 +24,10 @@ print("\nCleaning up data\n")
 # Cleanup train and test data
 cleaner = TextCleaner()
 
-raw_train.bodies = {k: cleaner.cleanup_text(v, remove_punctuation=False) for k, v in raw_train.bodies.items()}
-raw_train.heads  = {cleaner.cleanup_text(k, remove_punctuation=False): v for k, v in raw_train.heads.items()}
-raw_test.bodies  = {k: cleaner.cleanup_text(v, remove_punctuation=False) for k, v in raw_test.bodies.items()}
-raw_test.heads   = {cleaner.cleanup_text(k, remove_punctuation=False): v for k, v in raw_test.heads.items()}
+raw_train.bodies = {k: cleaner.cleanup_text(v) for k, v in raw_train.bodies.items()}
+raw_train.heads  = {cleaner.cleanup_text(k): v for k, v in raw_train.heads.items()}
+raw_test.bodies  = {k: cleaner.cleanup_text(v) for k, v in raw_test.bodies.items()}
+raw_test.heads   = {cleaner.cleanup_text(k): v for k, v in raw_test.heads.items()}
 
 print("\nGenerating tf-idf features for training set\n")
 
