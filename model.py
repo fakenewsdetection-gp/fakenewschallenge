@@ -18,9 +18,9 @@ def build_mlp(input_dim, num_classes, hidden_layers_dim,
                                 kernel_regularizer=l2(lambda_rate), kernel_constraint=max_norm(clip_max)))
         else:
             model.add(Dense(layer_dim, activation='relu',
-                kernel_regularizer=l2(lambda_rate), kernel_constraint=max_norm(max_clip)))
+                kernel_regularizer=l2(lambda_rate), kernel_constraint=max_norm(clip_max)))
         model.add(Dropout(dropout_rate))
-    model.add(Dense(num_classes, activation='softmax', kernel_constraint=max_norm(max_clip)))
+    model.add(Dense(num_classes, activation='softmax', kernel_constraint=max_norm(clip_max)))
     model.compile(Adam(lr=learning_rate, decay=learning_rate_decay),
                     loss='categorical_crossentropy')
     model.summary()
