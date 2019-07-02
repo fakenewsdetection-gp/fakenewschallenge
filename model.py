@@ -15,7 +15,7 @@ def build_mlp(input_dim, num_classes, hidden_layers_dim,
     for i, layer_dim in enumerate(hidden_layers_dim):
         if i == 0:
             model.add(Dense(layer_dim, input_shape=(input_dim, ), activation='relu',
-                                kernel_regularizer=l2(lambda_rate), kernel_constraint=max_norm(max_clip)))
+                                kernel_regularizer=l2(lambda_rate), kernel_constraint=max_norm(clip_max)))
         else:
             model.add(Dense(layer_dim, activation='relu',
                 kernel_regularizer=l2(lambda_rate), kernel_constraint=max_norm(max_clip)))
