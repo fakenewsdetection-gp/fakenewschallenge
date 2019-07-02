@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from util import *
+import pickle
 
 
 nltk.download('stopwords')
@@ -76,11 +77,20 @@ def process_train(train, test, max_num_words=5000):
     bow_vectorizer = CountVectorizer(max_features=max_num_words, stop_words=stop_words)
     bow = bow_vectorizer.fit_transform(heads + bodies)  # Train set only
 
+    with open("bow_vectorizer.pickle", "wb") as bow_vectorizer_file:
+            pickle.dump(bow_vectorizer, bow_vectorizer_file)
+
     tfreq_vectorizer = TfidfTransformer(use_idf=False).fit(bow)
     tfreq = tfreq_vectorizer.transform(bow).toarray()  # Train set only
 
+    with open("tfreq_vectorizer.pickle", "wb") as tfreq_vectorizer_file:
+            pickle.dump(tfreq_vectorizer, tfreq_vectorizer_file)
+
     tfidf_vectorizer = TfidfVectorizer(max_features=max_num_words, stop_words=stop_words).\
         fit(heads + bodies + test_heads + test_bodies)  # Train and test sets
+
+    with open("tfidf_vectorizer.pickle", "wb") as tfidf_vectorizer_file:
+            pickle.dump(tfidf_vectorizer, tfidf_vectorizer_file)
 
     # Process train set
     for instance in train.instances:
