@@ -1,6 +1,6 @@
 import tensorflow as tf
-from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.keras.models import load_model
+from keras.callbacks import ModelCheckpoint
+from keras.models import load_model
 import os
 import gc
 import pickle
@@ -9,7 +9,7 @@ from util import *
 from dataset import Dataset
 from score import report_score
 from model import build_mlp
-
+from sklearn.metrics import classification_report
 
 np.random.seed(23)
 tf.set_random_seed(42)
@@ -102,6 +102,11 @@ test_labels = [label_ref_rev[i] for i in test_labels]
 
 print("Scores on test set")
 report_score(test_labels, test_predictions)
+
+print()
+print()
+
+print(classification_report(test_labels, test_predictions))
 
 # Save predictions
 save_predictions(test_predictions, file_predictions)
