@@ -41,6 +41,7 @@ clip_max = hyperparameters["clip_max"]
 learning_rate = hyperparameters["learning_rate"]
 batch_size = hyperparameters["batch_size"]
 epochs = hyperparameters["epochs"]
+sample_weight = hyperparameters["sample_weight"]
 
 # Check if models directory doesn't exist
 if not os.path.isdir(models_dir):
@@ -55,11 +56,19 @@ if mode == 'train':
     train_labels = np.load('train.labels.npy')
 
     train_stances = []
+    train_sample_weight = []
     for label in train_labels:
         hot_encoded = [0 for _ in range(num_classes)]
         hot_encoded[label] = 1
         train_stances.append(hot_encoded)
+        if sample_weight:
+            train_sample_weight.append(sample_weight[label])
     train_stances = np.array(train_stances)
+    if sample_weight:
+        train_sample_weight = np.array(train_sample_weight)
+    else:
+        train_sample_weight = None
+
     feature_size = train_features.shape[1]
     mlp_model = build_mlp(feature_size, num_classes,
                             hidden_layers_dim,
@@ -78,6 +87,7 @@ if mode == 'train':
                                 epochs=epochs,
                                 batch_size=batch_size,
                                 validation_split=0.2,
+                                sample_weight=train_sample_weight,
                                 callbacks=[checkpoint])
     plot_history(mlp_history)
 
