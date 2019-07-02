@@ -30,14 +30,15 @@ with open(hyperparameters_filepath, 'rb') as hyperparametes_file:
 # Set file names
 file_predictions = "predictions_test.csv"
 models_dir = "models"
-mlp_model_file = "mlp.hdf5"
+mlp_model_file = "ucl-based.hdf5"
 
 # Initialise hyperparameters
 num_classes = 4
 hidden_layers_dim = hyperparameters["hidden_layers_dim"]
 lambda_rate = hyperparameters["lambda_rate"]
+dropout_rate = hyperparameters["dropout_rate"]
+clip_max = hyperparameters["clip_max"]
 learning_rate = hyperparameters["learning_rate"]
-learning_rate_decay = hyperparameters["learning_rate_decay"]
 batch_size = hyperparameters["batch_size"]
 epochs = hyperparameters["epochs"]
 
@@ -64,7 +65,8 @@ if mode == 'train':
                             hidden_layers_dim,
                             lambda_rate=lambda_rate,
                             learning_rate=learning_rate,
-                            learning_rate_decay=learning_rate_decay)
+                            dropout_rate=dropout_rate,
+                            clip_max=clip_max)
     checkpoint = ModelCheckpoint(os.path.join(models_dir, mlp_model_file),
                                     monitor='val_loss',
                                     verbose=1,
