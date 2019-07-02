@@ -80,8 +80,9 @@ def process_train(train, test, max_num_words=5000):
     tfreq = tfreq_vectorizer.transform(bow).toarray()  # Train set only
 
     tfidf_vectorizer = TfidfVectorizer(max_features=max_num_words, stop_words=stop_words).\
-        # fit(heads + bodies + test_heads + test_bodies)  # Train and test sets
         fit(heads + bodies)
+        # fit(heads + bodies + test_heads + test_bodies)  # Train and test sets
+
     # Process train set
     for instance in train.instances:
         head = instance['Headline']
