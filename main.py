@@ -52,6 +52,13 @@ if mode == 'train':
     else:
         train_features = np.load('train.tfidf.npy')
     train_labels = np.load('train.labels.npy')
+
+    train_stances = []
+    for label in train_labels:
+        hot_encoded = [0 for _ in range(num_classes)]
+        hot_encoded[label] = 1
+        train_stances.append(hot_encoded)
+    train_stances = np.array(train_stances)
     feature_size = train_features.shape[1]
     mlp_model = build_mlp(feature_size, num_classes,
                             hidden_layers_dim,
@@ -64,8 +71,8 @@ if mode == 'train':
                                     save_best_only=True,
                                     mode='min')
     print(f"\n\nShape of training set (Inputs): {train_features.shape}")
-    print(f"Shape of training set (Labels): {train_labels.shape}\n\n")
-    mlp_history = mlp_model.fit(train_features, train_labels,
+    print(f"Shape of training set (Labels): {train_stances.shape}\n\n")
+    mlp_history = mlp_model.fit(train_features, train_stances,
                                 epochs=epochs,
                                 batch_size=batch_size,
                                 validation_split=0.2,
@@ -89,7 +96,7 @@ print(f"Shape of test set (Labels): {test_labels.shape}\n\n")
 
 # Prediction
 test_predictions = mlp_model.predict_classes(test_features)
-
+test_predictions = np.argmax(test_predictions, axis=1)
 test_predictions = [label_ref_rev[i] for i in test_predictions]
 test_labels = [label_ref_rev[i] for i in test_labels]
 
