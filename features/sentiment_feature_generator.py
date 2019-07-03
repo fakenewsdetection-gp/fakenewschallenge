@@ -40,5 +40,5 @@ def process(data):
             bodies_sentiment[body_id] = _computer_sentiment(sentences)
         res.append(np.concatenate((heads_sentiment[head], bodies_sentiment[body_id],
             cosine_similarity(heads_sentiment[head].reshape(1, heads_sentiment[head].shape[0]),
-            bodies_sentiment[body_id].reshape(1, bodies_sentiment[body_id]))[0].reshape(1, 1)), axis=None))
+            bodies_sentiment[body_id].reshape(1, bodies_sentiment[body_id].shape[0]))[0].reshape(1, 1)), axis=None))
     return np.array(res)
