@@ -2,7 +2,6 @@ import numpy as np
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.tokenize import sent_tokenize
-from sklearn.metrics.pairwise import cosine_similarity
 
 
 nltk.download('vader_lexicon')
@@ -38,7 +37,5 @@ def process(data):
         if body_id not in bodies_sentiment:
             sentences = sent_tokenize(data.bodies[body_id])
             bodies_sentiment[body_id] = _computer_sentiment(sentences)
-        res.append(np.concatenate((heads_sentiment[head], bodies_sentiment[body_id],
-            cosine_similarity(heads_sentiment[head].reshape(1, heads_sentiment[head].shape[0]),
-            bodies_sentiment[body_id].reshape(1, bodies_sentiment[body_id].shape[0]))[0].reshape(1, 1)), axis=None))
+        res.append(np.concatenate((heads_sentiment[head], bodies_sentiment[body_id]), axis=None))
     return np.array(res)
